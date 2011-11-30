@@ -155,4 +155,23 @@
     [mockObjectStore verify];
 }
 
+- (void)testThatItDoesNotCrashWhenMappingAPayloadWithNSNull {
+    RKSpecNewManagedObjectStore();
+    RKManagedObjectMapping *mapping = [RKManagedObjectMapping mappingForClass:[RKHuman class]];
+    [mapping mapAttributes:@"name", @"nickName", nil];
+    RKObjectMappingProvider *provider = [[RKObjectMappingProvider new] autorelease];
+    [provider setMapping:mapping forKeyPath:@"humans"];
+    id userInfo = RKSpecParseFixture(@"NSNull.json");
+    RKHuman *blake = [RKHuman object];
+    blake.name = @"Blake";
+    blake.nickName = @"Blakers";
+    RKObjectMappingOperation *operation = [RKObjectMappingOperation mappingOperationFromObject:userInfo toObject:blake withMapping:mapping];
+    NSError *error = nil;
+    [operation performMapping:&error];
+    assertThat(error, nilValue());
+//    RKObjectMapper* mapper = [RKObjectMapper mapperWithObject:userInfo mappingProvider:provider];
+//    [mapper performMapping];
+    
+}
+
 @end
