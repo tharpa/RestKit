@@ -18,9 +18,11 @@ Docs/API
 *.pbxuser
 *.perspectivev3
 *.xcuserdatad
+/DerivedData/
 
 Examples/RKDiscussionBoardExample/discussion_board_backend/public/system/attachments/*
 
 # Thin
 log
 tmp
+
